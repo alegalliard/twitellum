@@ -24,7 +24,11 @@ class App extends Component {
                 <Widget>
                     <form className="novoTweet">
                         <div className="novoTweet__editorArea">
-                            <span className="novoTweet__status">
+                            <span className={ `novoTweet__status 
+                            ${(this.state.novoTweet.length > 140) 
+                                ? 'novoTweet__status--invalido' 
+                                : ''  }`
+                             }>
                             
                             {this.state.novoTweet.length}/140</span>
                             <textarea className="novoTweet__editor" 
@@ -33,7 +37,9 @@ class App extends Component {
                                 value={this.state.novoTweet}>
                             </textarea>
                         </div>
-                        <button type="submit" className="novoTweet__envia">Tweetar</button>
+                        <button type="submit" className="novoTweet__envia"
+                            disabled={ this.state.novoTweet.length > 140 
+                                    || this.state.novoTweet.length <1 }>Tweetar</button>
                     </form>
                 </Widget>
                 <Widget>
