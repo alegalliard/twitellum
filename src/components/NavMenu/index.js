@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import './navMenu.css';
+import React, { Component } from 'react'
+import './navMenu.css'
 
 class NavMenu extends Component {
     render() {
         return (
-        <nav className="navMenu">
-            <ul className="navMenu__lista">
+            <nav className="navMenu">
+                <ul className="navMenu__lista">
                 <li className="navMenu__item">
                     <a className="navMenu__link">
                         Bem vindo(a): <br />
-                        <strong>{ this.props.login }</strong>
+                        <strong>{ this.props.usuario }</strong>
                     </a>
                 </li>
                 <li className="navMenu__item">
@@ -21,10 +21,10 @@ class NavMenu extends Component {
                 <li className="navMenu__item">
                     <a className="navMenu__link">Logout</a>
                 </li>
-            </ul>
-        </nav> 
+                </ul>
+            </nav>
         )
     }
 }
 
-export default NavMenu;
+export default NavMenu
