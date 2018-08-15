@@ -6,7 +6,7 @@ import Widget from './components/Widget'
 import TrendsArea from './components/TrendsArea'
 import Tweet from './components/Tweet'
 
-class App extends Component {
+class Home extends Component {
   constructor() {
       super();
       this.state = {
@@ -14,12 +14,12 @@ class App extends Component {
           tweets: []
       }
       this.adicionaTweet = this.adicionaTweet.bind(this);
-      this.submitTweet = this.submitTweet.bind(this);
   }
   adicionaTweet(e) {
     e.preventDefault();
     
-    if(this.state.novoTweet)
+    if(this.state.novoTweet.length > 1 && 
+        (e.keyCode === 13 || !e.keyCode ) )
     {
         this.setState( {
             tweets: [ this.state.novoTweet, ...this.state.tweets ]
@@ -28,21 +28,18 @@ class App extends Component {
         this.setState({novoTweet: ''});
     }
   }
-  submitTweet(e) {      
-      if(e.keyCode === 13)
-        this.adicionaTweet(e);
-  }
+  
   render() {
     return (
       <Fragment>
         <Cabecalho>
-            <NavMenu usuario="@omariosouto" />
+            <NavMenu usuario="@alegalliard" />
         </Cabecalho>
         <div className="container">
             <Dashboard>
                 <Widget>
                     <form className="novoTweet" onSubmit={this.adicionaTweet} 
-                        onKeyUp={ this.submitTweet }>
+                        onKeyUp={ this.adicionaTweet }>
                         <div className="novoTweet__editorArea">
                             <span className={ `novoTweet__status 
                             ${(this.state.novoTweet.length > 140) 
@@ -85,4 +82,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;
