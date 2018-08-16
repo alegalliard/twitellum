@@ -6,6 +6,8 @@ import Widget from '../../components/Widget'
 import TrendsArea from '../../components/TrendsArea'
 import Tweet from '../../components/Tweet'
 
+//regex para hashtags #(\S+)\b
+
 class Home extends Component {
   constructor() {
       super();

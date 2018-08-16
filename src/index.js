@@ -11,10 +11,7 @@ import './assets/css/iconHeart.css'
 import './assets/css/notificacao.css'
 
 import './assets/css/novoTweet.css'
-// import './index.css';
 import Routes from './routes';
-
-
 
 import registerServiceWorker from './registerServiceWorker';
 
