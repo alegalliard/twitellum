@@ -23,11 +23,30 @@ class Home extends Component {
     if(this.state.novoTweet.length > 1 && 
         (e.keyCode === 13 || !e.keyCode ) )
     {
-        this.setState( {
-            tweets: [ this.state.novoTweet, ...this.state.tweets ]
+        fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
+            method: 'POST',
+            body: JSON.stringify({ conteudo: this.state.novoTweet })
+        })
+        .then(respostaDoServidor => respostaDoServidor.json() )
+        .then(respostaConvertidaEmObjeto => {
+            if(respostaConvertidaEmObjeto.code)
+                throw new Error(respostaConvertidaEmObjeto.message);
+
+            this.setState( {
+                tweets: [ respostaConvertidaEmObjeto, ...this.state.tweets ]
+            });
+            this.setState({novoTweet: ''});
+
+            console.log(respostaConvertidaEmObjeto);
+        })
+        .catch(error => {
+            console.log('ERROS:')
+            console.log(error);
         });
 
-        this.setState({novoTweet: ''});
+        
+
+        
     }
   }
   
@@ -71,7 +90,10 @@ class Home extends Component {
                     <div className="tweetsArea">
                         {
                             this.state.tweets.map((tweetAtual, indice) => {
-                                return <Tweet key={indice} texto={tweetAtual} />
+                                return <Tweet 
+                                        key={indice} 
+                                        texto={tweetAtual.conteudo}
+                                        usuario={tweetAtual.usuario} />
                             })
                         }
                         

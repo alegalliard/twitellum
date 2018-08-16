@@ -4,24 +4,18 @@ import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import page404 from './pages/page404';
 
-/*function estaAutenticado() {
-    if(!window.localStorage.getItem('TOKEN'))
-        this.props.history.push('/login');
-}*/
 class PrivateRoute extends Component {
 
     render() {
         if(localStorage.getItem('TOKEN')) {
-            const ComponentPattern = this.props.component;
-            return (
-                <ComponentPattern />
-            )
+            const ComponentIssoEhUmPattern = this.props.component;
+            return (<Route component={ ComponentIssoEhUmPattern } />)
+            //se eu não passar o route, as propriedades da Home não estarão acessíveis
+            //return (  <ComponentIssoEhUmPattern /> )
         }
         return(
             <Redirect to="/login" />
-        );
-        
-        
+        );       
     }
 }
 
