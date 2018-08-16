@@ -23,9 +23,17 @@ class LoginPage extends Component {
             body: JSON.stringify(dadosDeLogin)
         })
         .then(respostaDoServidor => respostaDoServidor.json())
-        .then(respostaEmObjeto => localStorage.setItem('TOKEN', respostaEmObjeto.token))
+        .then(respostaEmObjeto => {
+            if(respostaEmObjeto.token) {
+                localStorage.setItem('TOKEN', respostaEmObjeto.token);
+                this.props.history.push('/');
+            } else {
+                throw new Error('Login inválido');
+            }
+        })
         .catch(error => {
             console.log('erro')
+            console.log(error)
         })
 
     }

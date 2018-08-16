@@ -9,8 +9,8 @@ import Tweet from '../../components/Tweet'
 //regex para hashtags #(\S+)\b
 
 class Home extends Component {
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
       this.state = {
           novoTweet: '',
           tweets: []
