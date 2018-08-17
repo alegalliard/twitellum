@@ -3,6 +3,12 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import page404 from './pages/page404';
+//awesome-react-components#tabs
+//
+const LogoutPage = () => {
+    localStorage.removeItem('TOKEN');
+    return <Redirect to="/login" />
+}
 
 class PrivateRoute extends Component {
 
@@ -25,6 +31,7 @@ export default class Routes extends Component {
             <Switch>
                 <PrivateRoute path="/" exact component={Home} />
                 <Route path="/login" component={LoginPage} />
+                <Route path="/logout" component={LogoutPage} />
                 <Route component={page404} />
             </Switch>
         )

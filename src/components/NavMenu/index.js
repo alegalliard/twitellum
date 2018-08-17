@@ -19,7 +19,7 @@ class NavMenu extends Component {
                     <a className="navMenu__link">Hashtags</a>
                 </li>
                 <li className="navMenu__item">
-                    <a className="navMenu__link">Logout</a>
+                    <a href="/logout"className="navMenu__link">Logout</a>
                 </li>
                 </ul>
             </nav>

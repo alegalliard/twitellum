@@ -6,6 +6,7 @@ import Widget from '../../components/Widget'
 import TrendsArea from '../../components/TrendsArea'
 import Tweet from '../../components/Tweet'
 import Spinner from '../../components/Spinner'
+import {Helmet} from 'react-helmet'
 
 //regex para hashtags #(\S+)\b
 
@@ -24,7 +25,6 @@ class Home extends Component {
     .then( respostaDoServidor => respostaDoServidor.json() )
     .then( tweetsVindosDoServidor => {
         this.setState( { tweets: tweetsVindosDoServidor } );
-        console.log(tweetsVindosDoServidor)
     } );
   }
 
@@ -48,7 +48,6 @@ class Home extends Component {
             });
             this.setState({novoTweet: ''});
 
-            console.log(respostaConvertidaEmObjeto);
         })
         .catch(error => {
             console.log('ERROS:')
@@ -56,17 +55,16 @@ class Home extends Component {
         })
         .finally(() => {
             
-        });
-
-        
-
-        
+        });        
     }
   }
   
   render() {
     return (
       <Fragment>
+        <Helmet>
+            <title>Tweets ( {`${this.state.tweets.length}`} )</title>
+        </Helmet>
         <Cabecalho>
             <NavMenu usuario="@alegalliard" />
         </Cabecalho>
@@ -105,14 +103,15 @@ class Home extends Component {
                         {                
                             this.state.tweets.map((tweetAtual, indice) => {
                                 return <Tweet 
-                                        key={indice} 
+                                        key={tweetAtual._id} 
+                                        id={tweetAtual._id} 
                                         texto={tweetAtual.conteudo}
                                         likeado={tweetAtual.likeado}
                                         totalLikes={tweetAtual.totalLikes}
                                         usuario={tweetAtual.usuario} />
                             })
                         }
-                    {(this.state.tweets.length == 0) ? <Spinner /> : '' }                        
+                    {(this.state.tweets.length === 0) ? <Spinner /> : '' }                        
                     </div>
                 </Widget>
             </Dashboard>

@@ -14,7 +14,17 @@ class Tweet extends Component {
         this.setState({
             likeado: !likeado,
             totalLikes: !likeado ? totalLikes +1 : totalLikes - 1
+        });
+
+        fetch(`http://twitelum-api.herokuapp.com/tweets/${this.props.id}/like/?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
+            method: 'POST'
         })
+        .then(respostaDoServidor => respostaDoServidor.json() )
+        .then(respostaConvertidaEmObjeto => respostaConvertidaEmObjeto)
+        .catch(error => {
+            console.log('ERROS:')
+            console.log(error);
+        });
     }
     render() {
         return (
