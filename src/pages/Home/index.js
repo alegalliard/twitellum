@@ -5,6 +5,7 @@ import Dashboard from '../../components/Dashboard'
 import Widget from '../../components/Widget'
 import TrendsArea from '../../components/TrendsArea'
 import Tweet from '../../components/Tweet'
+import Spinner from '../../components/Spinner'
 
 //regex para hashtags #(\S+)\b
 
@@ -17,6 +18,16 @@ class Home extends Component {
       }
       this.adicionaTweet = this.adicionaTweet.bind(this);
   }
+
+  componentDidMount() {
+    fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`)
+    .then( respostaDoServidor => respostaDoServidor.json() )
+    .then( tweetsVindosDoServidor => {
+        this.setState( { tweets: tweetsVindosDoServidor } );
+        console.log(tweetsVindosDoServidor)
+    } );
+  }
+
   adicionaTweet(e) {
     e.preventDefault();
     
@@ -42,6 +53,9 @@ class Home extends Component {
         .catch(error => {
             console.log('ERROS:')
             console.log(error);
+        })
+        .finally(() => {
+            
         });
 
         
@@ -85,18 +99,20 @@ class Home extends Component {
                     <TrendsArea />
                 </Widget>
             </Dashboard>
-            <Dashboard posicao="centro">
+            <Dashboard posicao="centro">                
                 <Widget>
-                    <div className="tweetsArea">
-                        {
+                    <div className="tweetsArea">                        
+                        {                
                             this.state.tweets.map((tweetAtual, indice) => {
                                 return <Tweet 
                                         key={indice} 
                                         texto={tweetAtual.conteudo}
+                                        likeado={tweetAtual.likeado}
+                                        totalLikes={tweetAtual.totalLikes}
                                         usuario={tweetAtual.usuario} />
                             })
                         }
-                        
+                    {(this.state.tweets.length == 0) ? <Spinner /> : '' }                        
                     </div>
                 </Widget>
             </Dashboard>
