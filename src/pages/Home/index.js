@@ -119,7 +119,7 @@ class Home extends Component {
             <Dashboard posicao="centro">                
                 <Widget>
                     <div className="tweetsArea">                        
-                        {                
+                        {         
                             this.state.tweets.map((tweetAtual, indice) => {
                                 return <Tweet 
                                         key={tweetAtual._id} 
@@ -150,7 +150,7 @@ Tweet.propTypes = {
     id: PropTypes.string.isRequired,
     texto: PropTypes.string.isRequired,
     removivel: PropTypes.bool,
-    likeado: PropTypes.number,
+    likeado: PropTypes.bool,
     removeHandler: PropTypes.func,
     usuario: PropTypes.shape({
         foto: PropTypes.string.isRequired,
