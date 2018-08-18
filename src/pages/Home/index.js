@@ -8,6 +8,7 @@ import Tweet from '../../components/Tweet'
 import Spinner from '../../components/Spinner'
 import {Helmet} from 'react-helmet'
 import PropTypes from 'prop-types';
+import Modal from '../../components/Modal'
 
 //regex para hashtags #(\S+)\b
 
@@ -136,6 +137,11 @@ class Home extends Component {
                 </Widget>
             </Dashboard>
         </div>
+        <Modal isAberto={false}>
+            <Widget>
+                pause stop  
+            </Widget>
+        </Modal>
       </Fragment>
     );
   }

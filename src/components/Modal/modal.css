@@ -1,0 +1,24 @@
+.modal {
+    position: fixed;
+    background: rgba(0,0,0, .8);
+    width: 100vw;
+    height: 100vh; 
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    pointer-events: none;
+    opacity:0;
+    transform: .3s
+}
+
+.modal--isAtivo {
+    opacity:1;
+    pointer-events: auto;
+}
+
+.modal__wrap{
+    margin:5% 10%;
+    background: #fff;
+    
+}
