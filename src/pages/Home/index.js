@@ -7,6 +7,7 @@ import TrendsArea from '../../components/TrendsArea'
 import Tweet from '../../components/Tweet'
 import Spinner from '../../components/Spinner'
 import {Helmet} from 'react-helmet'
+import PropTypes from 'prop-types';
 
 //regex para hashtags #(\S+)\b
 
@@ -26,6 +27,23 @@ class Home extends Component {
     .then( tweetsVindosDoServidor => {
         this.setState( { tweets: tweetsVindosDoServidor } );
     } );
+  }
+
+  removerOTweet = (idDoTweet) => {
+    const removeu =  this.state.tweets.filter( (tweet) => idDoTweet !== tweet._id );
+    fetch(`http://twitelum-api.herokuapp.com/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
+        method: 'DELETE'
+    })
+    .then(serverResponse => serverResponse.json())
+    .then(novaLista => {
+        if(!novaLista.removidos)
+            throw new Error(novaLista);
+
+        this.setState({
+            tweets: removeu
+        })
+    });
+    
   }
 
   adicionaTweet(e) {
@@ -108,7 +126,9 @@ class Home extends Component {
                                         texto={tweetAtual.conteudo}
                                         likeado={tweetAtual.likeado}
                                         totalLikes={tweetAtual.totalLikes}
-                                        usuario={tweetAtual.usuario} />
+                                        removivel={tweetAtual.removivel}
+                                        usuario={tweetAtual.usuario}
+                                        removeHandler={() => { this.removerOTweet(tweetAtual._id) }} />
                             })
                         }
                     {(this.state.tweets.length === 0) ? <Spinner /> : '' }                        
@@ -120,5 +140,18 @@ class Home extends Component {
     );
   }
 }
+Tweet.propTypes = {
+    id: PropTypes.string.isRequired,
+    texto: PropTypes.string.isRequired,
+    removivel: PropTypes.bool,
+    likeado: PropTypes.number,
+    removeHandler: PropTypes.func,
+    usuario: PropTypes.shape({
+        foto: PropTypes.string.isRequired,
+        nome: PropTypes.string,
+        login: PropTypes.string,
+    })
+}
 
 export default Home;
+

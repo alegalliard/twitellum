@@ -26,6 +26,7 @@ class Tweet extends Component {
             console.log(error);
         });
     }
+
     render() {
         return (
             <article className="tweet">
@@ -38,6 +39,12 @@ class Tweet extends Component {
                 </div>
                 <p className="tweet__conteudo"><span>{this.props.texto}</span></p>
                 <footer className="tweet__footer">
+                    {
+                        this.props.removivel && 
+                            <button className="btn btn--blue btn--remove" onClick={this.props.removeHandler}>
+                                x
+                            </button>
+                    }
                     <button className="btn btn--clean" onClick={this.likeHandler}>
                         <svg className={` icon icon--small iconHeart
                                         ${
