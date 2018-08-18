@@ -20,5 +20,11 @@
 .modal__wrap{
     margin:5% 10%;
     background: #fff;
-    
+    position: relative
+}
+
+.modal__close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }

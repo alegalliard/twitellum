@@ -17,7 +17,8 @@ class Home extends Component {
       super(props);
       this.state = {
           novoTweet: '',
-          tweets: []
+          tweets: [],
+          tweetAtivo: {}
       }
       this.adicionaTweet = this.adicionaTweet.bind(this);
   }
@@ -51,7 +52,7 @@ class Home extends Component {
     e.preventDefault();
     
     if(this.state.novoTweet.length > 1 && 
-        (e.keyCode === 13 || !e.keyCode ) )
+        (!e.keyCode ) )
     {
         fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
             method: 'POST',
@@ -76,6 +77,14 @@ class Home extends Component {
             
         });        
     }
+  }
+
+  abreModal = (idDoTweetQVaiNoModal) => {
+      const tweetQVaiFicarAtivo = this.state.tweets.find(tweet => tweet._id === idDoTweetQVaiNoModal )
+      console.log(tweetQVaiFicarAtivo)
+      this.setState({
+          tweetAtivo: tweetQVaiFicarAtivo
+      });
   }
   
   render() {
@@ -129,6 +138,7 @@ class Home extends Component {
                                         totalLikes={tweetAtual.totalLikes}
                                         removivel={tweetAtual.removivel}
                                         usuario={tweetAtual.usuario}
+                                        abreModalHandler={() => { this.abreModal(tweetAtual._id) }}
                                         removeHandler={() => { this.removerOTweet(tweetAtual._id) }} />
                             })
                         }
@@ -137,10 +147,17 @@ class Home extends Component {
                 </Widget>
             </Dashboard>
         </div>
-        <Modal isAberto={false}>
+        <Modal isAberto={Boolean(this.state.tweetAtivo._id)}>
+           { 
+            Boolean(this.state.tweetAtivo._id) &&
             <Widget>
-                pause stop  
+                <Tweet id={this.state.tweetAtivo._id} 
+                texto={this.state.tweetAtivo.conteudo}
+                usuario={this.state.tweetAtivo.usuario}
+                likeado={this.state.tweetAtivo.likeado}
+                totalLikes={this.state.tweetAtivo.totalLikes} />
             </Widget>
+            }
         </Modal>
       </Fragment>
     );
