@@ -9,6 +9,7 @@ class Tweet extends Component {
             totalLikes: props.totalLikes
         }        
     }
+    
     likeHandler = () => {
         const { likeado, totalLikes } = this.state;
         this.setState({

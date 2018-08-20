@@ -31,6 +31,14 @@ class Home extends Component {
     } );
   }
 
+  fechaModal = (e) => {
+    const el = e.target;
+    const isModal = el.classList.contains( 'modal' );
+    if(isModal) {
+        this.setState({tweetAtivo: {}})
+    }
+  }
+
   removerOTweet = (idDoTweet) => {
     const removeu =  this.state.tweets.filter( (tweet) => idDoTweet !== tweet._id );
     fetch(`http://twitelum-api.herokuapp.com/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
@@ -147,15 +155,16 @@ class Home extends Component {
                 </Widget>
             </Dashboard>
         </div>
-        <Modal isAberto={Boolean(this.state.tweetAtivo._id)}>
+        <Modal isAberto={Boolean(this.state.tweetAtivo._id)}
+        fechaModal={this.fechaModal}>
            { 
             Boolean(this.state.tweetAtivo._id) &&
             <Widget>
                 <Tweet id={this.state.tweetAtivo._id} 
-                texto={this.state.tweetAtivo.conteudo}
-                usuario={this.state.tweetAtivo.usuario}
-                likeado={this.state.tweetAtivo.likeado}
-                totalLikes={this.state.tweetAtivo.totalLikes} />
+                        texto={this.state.tweetAtivo.conteudo}
+                        usuario={this.state.tweetAtivo.usuario}
+                        likeado={this.state.tweetAtivo.likeado}
+                        totalLikes={this.state.tweetAtivo.totalLikes} />
             </Widget>
             }
         </Modal>

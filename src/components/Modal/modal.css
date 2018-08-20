@@ -9,7 +9,7 @@
     bottom:0;
     pointer-events: none;
     opacity:0;
-    transform: .3s
+    transition: .3s;
 }
 
 .modal--isAtivo {
