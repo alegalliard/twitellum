@@ -10,6 +10,7 @@ import {Helmet} from 'react-helmet'
 import PropTypes from 'prop-types';
 import Modal from '../../components/Modal'
 
+
 //regex para hashtags #(\S+)\b
 
 class Home extends Component {
@@ -23,11 +24,25 @@ class Home extends Component {
       this.adicionaTweet = this.adicionaTweet.bind(this);
   }
 
+  static contextTypes = {
+      store: PropTypes.object
+  }
+
   componentDidMount() {
+    this.context.store.subscribe(() => {
+        this.setState({
+            tweets: this.context.store.getState()
+        })
+    })
+
+
     fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`)
     .then( respostaDoServidor => respostaDoServidor.json() )
     .then( tweetsVindosDoServidor => {
-        this.setState( { tweets: tweetsVindosDoServidor } );
+        //this.setState( { tweets: tweetsVindosDoServidor } );
+
+        //agora com redux
+        this.context.store.dispatch({ type: 'CARREGA_TWEETS', tweets: tweetsVindosDoServidor });
     } );
   }
 
