@@ -9,6 +9,7 @@ import Spinner from '../../components/Spinner'
 import {Helmet} from 'react-helmet'
 import PropTypes from 'prop-types';
 import Modal from '../../components/Modal'
+import * as TweetsActions from '../../actions/TweetsActions'
 
 
 //regex para hashtags #(\S+)\b
@@ -35,15 +36,12 @@ class Home extends Component {
         })
     })
 
+    //sem o thunk
+    // TweetsActions.carregaTweets(this.context.store)
 
-    fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`)
-    .then( respostaDoServidor => respostaDoServidor.json() )
-    .then( tweetsVindosDoServidor => {
-        //this.setState( { tweets: tweetsVindosDoServidor } );
 
-        //agora com redux
-        this.context.store.dispatch({ type: 'CARREGA_TWEETS', tweets: tweetsVindosDoServidor });
-    } );
+    //com o thunk
+    this.context.store.dispatch( TweetsActions.carregaTweets() );
   }
 
   fechaModal = (e) => {
