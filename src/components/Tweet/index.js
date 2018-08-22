@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import './tweet.css'
+import * as TweetsActions from '../../actions/TweetsActions'
 
 class Tweet extends Component {
     constructor(props) {
@@ -8,6 +10,16 @@ class Tweet extends Component {
             likeado: props.likeado,
             totalLikes: props.totalLikes
         }        
+    }
+
+    static contextTypes = {
+        store: PropTypes.object
+    }
+
+    removeHandler = () => {
+        console.log('Removendo pelo tweet')
+        const idDoTweet = this.props.id;
+        this.context.store.dispatch(TweetsActions.removeTweet(idDoTweet));    
     }
     
     likeHandler = () => {
@@ -42,7 +54,7 @@ class Tweet extends Component {
                 <footer className="tweet__footer">
                     {
                         this.props.removivel && 
-                            <button className="btn btn--blue btn--remove" onClick={this.props.removeHandler}>
+                            <button className="btn btn--blue btn--remove" onClick={this.removeHandler}>
                                 x
                             </button>
                     }

@@ -52,29 +52,19 @@ class Home extends Component {
     }
   }
 
-  removerOTweet = (idDoTweet) => {
-    const removeu =  this.state.tweets.filter( (tweet) => idDoTweet !== tweet._id );
-    fetch(`http://twitelum-api.herokuapp.com/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
-        method: 'DELETE'
-    })
-    .then(serverResponse => serverResponse.json())
-    .then(novaLista => {
-        if(!novaLista.removidos)
-            throw new Error(novaLista);
-
-        this.setState({
-            tweets: removeu
-        })
-    });
-    
-  }
+  
 
   adicionaTweet(e) {
     e.preventDefault();
     
+    
     if(this.state.novoTweet.length > 1 && 
-        (!e.keyCode ) )
+        (e.keyCode === 13 ) )
     {
+         this.context.store.dispatch(TweetsActions.adicionaTweet(this.state.novoTweet));
+         this.setState({novoTweet: ''});
+
+        /* vai lá olhar o TweetsAction com o redux e o thunk
         fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
             method: 'POST',
             body: JSON.stringify({ conteudo: this.state.novoTweet })
@@ -83,12 +73,13 @@ class Home extends Component {
         .then(respostaConvertidaEmObjeto => {
             if(respostaConvertidaEmObjeto.code)
                 throw new Error(respostaConvertidaEmObjeto.message);
-
+            
+            this.context.store.dispatch({ type: 'ADD_TWEET', tweet: respostaConvertidaEmObjeto });
+            //sem o thux e redux
             this.setState( {
                 tweets: [ respostaConvertidaEmObjeto, ...this.state.tweets ]
             });
             this.setState({novoTweet: ''});
-
         })
         .catch(error => {
             console.log('ERROS:')
@@ -97,6 +88,7 @@ class Home extends Component {
         .finally(() => {
             
         });        
+        */
     }
   }
 
@@ -160,7 +152,8 @@ class Home extends Component {
                                         removivel={tweetAtual.removivel}
                                         usuario={tweetAtual.usuario}
                                         abreModalHandler={() => { this.abreModal(tweetAtual._id) }}
-                                        removeHandler={() => { this.removerOTweet(tweetAtual._id) }} />
+                                        //removeHandler={() => { this.removerOTweet(tweetAtual._id) }} Foi pro componente do Tweet
+                                        />
                             })
                         }
                     {(this.state.tweets.length === 0) ? <Spinner /> : '' }                        
