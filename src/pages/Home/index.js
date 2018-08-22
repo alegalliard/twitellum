@@ -4,7 +4,7 @@ import NavMenu from '../../components/NavMenu'
 import Dashboard from '../../components/Dashboard'
 import Widget from '../../components/Widget'
 import TrendsArea from '../../components/TrendsArea'
-import Tweet from '../../components/Tweet'
+import Tweet from '../../containers/TweetContainer'
 import Spinner from '../../components/Spinner'
 import {Helmet} from 'react-helmet'
 import PropTypes from 'prop-types';
