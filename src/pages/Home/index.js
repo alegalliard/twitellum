@@ -10,6 +10,7 @@ import {Helmet} from 'react-helmet'
 import PropTypes from 'prop-types';
 import Modal from '../../components/Modal'
 import * as TweetsActions from '../../actions/TweetsActions'
+import '../../assets/css/notificacao.css'
 
 
 //regex para hashtags #(\S+)\b
@@ -30,10 +31,12 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    window.store = this.context.store;
+    window.store.dispatch({ type: 'ADD_NOTIFICACAO', msg: 'Alo alo w brasil' })
     this.context.store.subscribe(() => {
         this.setState({
-            tweets: this.context.store.getState().tweets,
-            tweetAtivo: this.context.store.getState().tweetAtivo
+            tweets: this.context.store.getState().tweets.tweets,
+            tweetAtivo: this.context.store.getState().tweets.tweetAtivo
         })
     })
 
@@ -148,6 +151,13 @@ class Home extends Component {
             </Widget>
             }
         </Modal>
+        {
+            this.context.store.getState().notificacao &&
+            <div className="notificacaoMsg" onAnimationEnd={() => { this.context.store.dispatch({ type: 'REMOVE_NOTIFICACAO' }) } }>
+                { this.context.store.getState().notificacao }
+            </div>
+        }}
+        }
       </Fragment>
     );
   }

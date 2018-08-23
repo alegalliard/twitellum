@@ -1,7 +1,8 @@
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk'
 
 const stateInicial = {tweets:[], tweetAtivo: ''};
+
 
 function tweetsReducer(stateDentroDaStore = stateInicial, acaoDisparadaPeloDev) {
     if(acaoDisparadaPeloDev.type === 'CARREGA_TWEETS')
@@ -54,7 +55,42 @@ function tweetsReducer(stateDentroDaStore = stateInicial, acaoDisparadaPeloDev) 
         }
     }
 
+    if(acaoDisparadaPeloDev.type === 'LIKE')
+    {
+        const idTweetLikeado = acaoDisparadaPeloDev.idDoTweet;
+        const listaNova = stateDentroDaStore.tweets.map(tweetAtual => {
+            const {likeado, totalLikes, _id} = tweetAtual;
+            if(idTweetLikeado === _id) {
+                tweetAtual.likeado = !likeado
+                tweetAtual.totalLikes = likeado ? totalLikes -1 : totalLikes+1
+            }
+
+            return tweetAtual;
+        })
+
+        return {
+            ...stateDentroDaStore,
+            tweets: listaNova
+        }
+    }
+
     return stateDentroDaStore
 }
 
-export default createStore(tweetsReducer, applyMiddleware(thunk));
+function notificacaoReducer(state = ' ', action) {
+    if(action.type === 'ADD_NOTIFICACAO')
+    {
+        console.log('notificações')
+        return action.msg;
+    
+    }
+    return state;
+}
+
+export default createStore(
+    combineReducers({
+        tweets: tweetsReducer,
+        notificacao: notificacaoReducer
+    }),
+    applyMiddleware(thunk)
+);
