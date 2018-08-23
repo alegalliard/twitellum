@@ -32,7 +32,8 @@ class Home extends Component {
   componentDidMount() {
     this.context.store.subscribe(() => {
         this.setState({
-            tweets: this.context.store.getState()
+            tweets: this.context.store.getState().tweets,
+            tweetAtivo: this.context.store.getState().tweetAtivo
         })
     })
 
@@ -47,8 +48,10 @@ class Home extends Component {
   fechaModal = (e) => {
     const el = e.target;
     const isModal = el.classList.contains( 'modal' );
+
     if(isModal) {
-        this.setState({tweetAtivo: {}})
+        //this.setState({tweetAtivo: {}})
+        this.context.store.dispatch({ type: 'FECHA_MODAL' });
     }
   }
 
@@ -63,48 +66,18 @@ class Home extends Component {
     {
          this.context.store.dispatch(TweetsActions.adicionaTweet(this.state.novoTweet));
          this.setState({novoTweet: ''});
-
-        /* vai lá olhar o TweetsAction com o redux e o thunk
-        fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
-            method: 'POST',
-            body: JSON.stringify({ conteudo: this.state.novoTweet })
-        })
-        .then(respostaDoServidor => respostaDoServidor.json() )
-        .then(respostaConvertidaEmObjeto => {
-            if(respostaConvertidaEmObjeto.code)
-                throw new Error(respostaConvertidaEmObjeto.message);
-            
-            this.context.store.dispatch({ type: 'ADD_TWEET', tweet: respostaConvertidaEmObjeto });
-            //sem o thux e redux
-            this.setState( {
-                tweets: [ respostaConvertidaEmObjeto, ...this.state.tweets ]
-            });
-            this.setState({novoTweet: ''});
-        })
-        .catch(error => {
-            console.log('ERROS:')
-            console.log(error);
-        })
-        .finally(() => {
-            
-        });        
-        */
     }
   }
 
   abreModal = (idDoTweetQVaiNoModal) => {
-      const tweetQVaiFicarAtivo = this.state.tweets.find(tweet => tweet._id === idDoTweetQVaiNoModal )
-      console.log(tweetQVaiFicarAtivo)
-      this.setState({
-          tweetAtivo: tweetQVaiFicarAtivo
-      });
+      this.context.store.dispatch({ type: 'ABRE_MODAL', idDoTweetQVaiNoModal });
   }
   
   render() {
     return (
       <Fragment>
         <Helmet>
-            <title>Tweets ( {`${this.state.tweets.length}`} )</title>
+            <title>Tweets ({`${this.state.tweets.length}`}  )</title>
         </Helmet>
         <Cabecalho>
             <NavMenu usuario="@alegalliard" />
@@ -150,7 +123,7 @@ class Home extends Component {
                                         likeado={tweetAtual.likeado}
                                         totalLikes={tweetAtual.totalLikes}
                                         removivel={tweetAtual.removivel}
-                                        usuario={tweetAtual.usuario}
+                                        usuario={tweetAtual.usuario}                                        
                                         abreModalHandler={() => { this.abreModal(tweetAtual._id) }}
                                         //removeHandler={() => { this.removerOTweet(tweetAtual._id) }} Foi pro componente do Tweet
                                         />
@@ -170,6 +143,7 @@ class Home extends Component {
                         texto={this.state.tweetAtivo.conteudo}
                         usuario={this.state.tweetAtivo.usuario}
                         likeado={this.state.tweetAtivo.likeado}
+                        removivel={this.state.tweetAtivo.removivel}
                         totalLikes={this.state.tweetAtivo.totalLikes} />
             </Widget>
             }

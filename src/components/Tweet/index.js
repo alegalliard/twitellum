@@ -19,7 +19,8 @@ class Tweet extends Component {
     removeHandler = () => {
         console.log('Removendo pelo tweet')
         const idDoTweet = this.props.id;
-        this.context.store.dispatch(TweetsActions.removeTweet(idDoTweet));    
+        this.context.store.dispatch(TweetsActions.removeTweet(idDoTweet));
+        this.context.store.dispatch({type: 'FECHA_MODAL'}); 
     }
     
     likeHandler = () => {

@@ -5,10 +5,6 @@ import './loginPage.css'
 
 
 class LoginPage extends Component {
-    constructor() {
-        super();
-
-    }
     logar = (e) => {
         e.preventDefault();
         const login = this.inputLogin.value;

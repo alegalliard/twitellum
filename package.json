@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "prop-types": "^15.6.2",
-    "pubsub-js": "^1.6.0",
+    "pubsub-js": "^1.6.0", 
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-helmet": "^5.2.0",
